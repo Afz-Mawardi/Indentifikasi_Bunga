@@ -2,7 +2,8 @@ import os
 import json
 import base64
 import io
-import random
+import tempfile
+import zipfile
 
 import numpy as np
 from PIL import Image
@@ -28,23 +29,54 @@ MODELS_DIR = os.path.join(ROOT_DIR, 'models')
 MODEL_FILE = os.path.join(MODELS_DIR, 'flower_classification_model_MobileNetV2.keras')
 
 # =============================
-# LOAD MODEL (patched for batch_shape configs)
+# LOAD MODEL (compat for batch_shape)
 # =============================
-class PatchedInputLayer(tf.keras.layers.InputLayer):
-    """InputLayer that accepts batch_shape from older saved models."""
+def _replace_batch_shape_key(obj):
+    if isinstance(obj, dict):
+        if 'batch_shape' in obj and 'batch_input_shape' not in obj:
+            obj['batch_input_shape'] = obj.pop('batch_shape')
+        for k, v in list(obj.items()):
+            obj[k] = _replace_batch_shape_key(v)
+        return obj
+    if isinstance(obj, list):
+        return [_replace_batch_shape_key(v) for v in obj]
+    return obj
 
-    def __init__(self, batch_shape=None, **kwargs):
-        if batch_shape is not None and 'batch_input_shape' not in kwargs:
-            kwargs['batch_input_shape'] = batch_shape
-        super().__init__(**kwargs)
+
+def load_model_compat(model_path: str):
+    """Load a .keras model saved with newer config keys (e.g., batch_shape).
+
+    Some models saved with newer Keras versions store InputLayer config as
+    `batch_shape`, which older TF/Keras (e.g., 2.15) can't deserialize.
+    This function rewrites config.json in-memory to use `batch_input_shape`.
+    """
+    try:
+        return tf.keras.models.load_model(model_path, compile=False)
+    except (TypeError, ValueError) as e:
+        msg = str(e)
+        if 'batch_shape' not in msg:
+            raise
+
+        with zipfile.ZipFile(model_path, 'r') as zin:
+            config = json.loads(zin.read('config.json'))
+            config = _replace_batch_shape_key(config)
+            new_config_bytes = json.dumps(config, ensure_ascii=False).encode('utf-8')
+
+            with tempfile.NamedTemporaryFile(delete=False, suffix='.keras') as tmp:
+                tmp_path = tmp.name
+
+        # Rebuild zip with patched config.json
+        with zipfile.ZipFile(model_path, 'r') as zin, zipfile.ZipFile(tmp_path, 'w') as zout:
+            for info in zin.infolist():
+                if info.filename == 'config.json':
+                    zout.writestr(info, new_config_bytes)
+                else:
+                    zout.writestr(info, zin.read(info.filename))
+
+        return tf.keras.models.load_model(tmp_path, compile=False)
 
 
-custom_objects = {"InputLayer": PatchedInputLayer}
-model = tf.keras.models.load_model(
-    MODEL_FILE,
-    custom_objects=custom_objects,
-    compile=False,
-)
+model = load_model_compat(MODEL_FILE)
 
 # =============================
 # LOAD METADATA
