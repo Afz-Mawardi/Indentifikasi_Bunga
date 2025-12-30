@@ -113,6 +113,7 @@ Detail lengkap request/response dan contoh curl ada di `USAGE.md`.
 
 - Jangan jalankan dengan `debug=True` di production.
 - Untuk deployment, jalankan via WSGI server pilihan Anda (mis. gunicorn/waitress) dan atur reverse proxy (Nginx/IIS) sesuai kebutuhan.
+- Jika deploy di server/container tanpa GUI dan muncul error `ImportError: libGL.so.1`, gunakan dependency `opencv-python-headless` (sudah diset di `requirements.txt`).
 
 ---
 
