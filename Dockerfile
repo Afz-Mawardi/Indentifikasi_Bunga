@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
-# Base image dengan TensorFlow CPU yang kompatibel dan stabil untuk inference
-FROM tensorflow/tensorflow:2.15.0
+# Base image Python bersih untuk menghindari konflik package bawaan OS
+FROM python:3.11-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
@@ -14,19 +14,13 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         libgl1 \
         libglib2.0-0 \
+        libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python deps (dipin untuk reproducibility di Docker)
-# NOTE: requirements.txt di repo bersifat >=; di Docker kita pin agar build konsisten.
+# Install Python deps
 COPY requirements.txt /app/requirements.txt
 RUN python -m pip install --upgrade pip \
-    && python -m pip install --no-cache-dir \
-        Flask==2.3.3 \
-        numpy==1.26.4 \
-        Pillow==10.4.0 \
-        opencv-python==4.8.0.76 \
-        keras==2.15.0 \
-        gunicorn==21.2.0
+    && python -m pip install --no-cache-dir -r /app/requirements.txt
 
 # Copy source
 COPY . /app
@@ -40,4 +34,4 @@ EXPOSE 5000
 
 # Production entrypoint (debug=False)
 # 1 worker karena TensorFlow model biasanya berat; threads untuk concurrency ringan.
-CMD ["gunicorn", "-w", "1", "-k", "gthread", "--threads", "4", "--timeout", "120", "-b", "0.0.0.0:5000", "app:app"]
+CMD ["sh", "-c", "gunicorn -w 1 -k gthread --threads 4 --timeout 120 -b 0.0.0.0:${PORT:-5000} app:app"]
