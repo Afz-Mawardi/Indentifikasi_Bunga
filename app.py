@@ -315,6 +315,15 @@ if __name__ == '__main__':
     # Railway/Container friendly defaults:
     # - debug OFF by default
     # - respect platform-provided PORT
-    debug = os.getenv('FLASK_DEBUG', '').strip() in {'1', 'true', 'True'}
+    is_railway = any(
+        os.getenv(k)
+        for k in (
+            'RAILWAY_PROJECT_ID',
+            'RAILWAY_SERVICE_ID',
+            'RAILWAY_ENVIRONMENT',
+        )
+    )
+    debug = (os.getenv('FLASK_DEBUG', '').strip() in {'1', 'true', 'True'}) and (not is_railway)
     port = int(os.getenv('PORT', '5000'))
-    app.run(debug=debug, host='0.0.0.0', port=port)
+    # Prevent model being loaded twice by the debug reloader.
+    app.run(debug=debug, host='0.0.0.0', port=port, use_reloader=debug)
