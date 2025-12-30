@@ -3,8 +3,8 @@
 # ============================================================
 
 import tensorflow as tf
-from keras import layers, models
-from keras.applications import EfficientNetB0
+from tensorflow.keras import layers, models
+from tensorflow.keras.applications import EfficientNetB0
 import json
 import numpy as np
 import cv2
