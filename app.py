@@ -7,7 +7,7 @@ import random
 import numpy as np
 from PIL import Image
 import tensorflow as tf
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 
 from models.model_utils import predict_flower, cat_to_name
 
@@ -114,6 +114,15 @@ def get_flower_metadata(flower_name, confidence):
 # =============================
 # ROUTES
 # =============================
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(
+        app.static_folder,
+        'favicon.png',
+        mimetype='image/png',
+    )
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
