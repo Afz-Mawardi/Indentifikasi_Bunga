@@ -357,12 +357,30 @@ body {
   gap: var(--spacing-lg);
 }
 
+@media (max-width: 640px) {
+  .hero-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
 .hero-visual {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
+@media (max-width: 1024px) {
+  .hero-visual {
+    order: 2;
+  }
+  
+  .hero-content {
+    order: 1;
+  }
+}
+
 .hero-logo-card {
   position: relative;
   width: 360px;
@@ -377,8 +395,36 @@ body {
   display: grid;
   gap: var(--spacing-lg);
   justify-items: center;
+  align-items: center;
   overflow: hidden;
   animation: float-y 6s ease-in-out infinite;
+}
+
+@media (max-width: 1024px) {
+  .hero-logo-card {
+    width: 340px;
+    height: 460px;
+    padding: var(--spacing-lg);
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-logo-card {
+    width: 100%;
+    max-width: 320px;
+    height: 420px;
+    padding: var(--spacing-md);
+    border-radius: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-logo-card {
+    max-width: 280px;
+    height: 380px;
+    padding: var(--spacing-sm);
+  }
 }
 
 .hero-logo-card::after {
@@ -406,6 +452,31 @@ box-shadow:
   inset -12px -12px 24px rgba(0, 0, 0, 0.13),
   inset 12px -12px 24px rgba(0, 0, 0, 0.13),
   inset -12px 12px 24px rgba(0, 0, 0, 0.13);
+}
+
+@media (max-width: 1024px) {
+  .hero-logo-card {
+    gap: var(--spacing-md);
+  }
+
+  .hero-logo-surface {
+    max-width: 260px;
+    margin: 0 auto;
+    border-radius: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-logo-surface {
+    max-width: 220px;
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-logo-surface {
+    max-width: 200px;
+  }
 }
 
 .hero-logo-surface::before {
@@ -439,6 +510,10 @@ box-shadow:
 
 .hero-logo-icon {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  justify-self: center;
   font-size: clamp(4rem, 8vw, 6rem);
   line-height: 1;
   background: linear-gradient(135deg, #f472b6, #c084fc, #8b5cf6);
@@ -448,6 +523,12 @@ box-shadow:
   filter: drop-shadow(0 12px 20px rgba(168, 85, 247, 0.35));
   z-index: 1;
   animation: gentle-tilt 5s ease-in-out infinite;
+}
+
+@media (max-width: 640px) {
+  .hero-logo-icon {
+    font-size: clamp(3.5rem, 10vw, 5rem);
+  }
 }
 
 .hero-logo-caption {
@@ -469,6 +550,28 @@ box-shadow:
   font-size: 0.95rem;
   line-height: 1.5;
   max-width: 200px;
+}
+
+@media (max-width: 640px) {
+  .hero-logo-caption h3 {
+    font-size: 1.2rem;
+  }
+  
+  .hero-logo-caption p {
+    font-size: 0.875rem;
+    max-width: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-logo-caption h3 {
+    font-size: 1.1rem;
+  }
+  
+  .hero-logo-caption p {
+    font-size: 0.8rem;
+    max-width: 160px;
+  }
 }
 
 @keyframes float-y {
@@ -566,11 +669,11 @@ box-shadow:
 
 .btn-success {
   background: linear-gradient(135deg, #3b57f6, #2563eb);
-  color: white;
+  color: var(--text-primary);
 }
 
 .btn-light {
-  background: white;
+  background: var(--text-primary);
   color: var(--bg-primary);
   border: 2px solid white;
 }
@@ -578,15 +681,15 @@ box-shadow:
 .btn-outline {
   background: transparent;
   border: 2px solid white;
-  color: white;
+  color: var(--text-primary);
 }
 .btn-light:hover {
   background: transparent;
-  color: white;
+  color: var(--text-primary);
 }
 
 .btn-outline:hover {
-  background: white;
+  background: var(--text-primary);
   color: var(--bg-primary);
 }
 
@@ -708,7 +811,7 @@ box-shadow:
   align-items: center;
   justify-content: center;
   font-size: 2.5rem;
-  color: white;
+  color: var(--text-primary);
 }
 
 .stat-number {
@@ -741,7 +844,7 @@ box-shadow:
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  color: white;
+  color: var(--text-primary);
 }
 
 .gradient-green {
@@ -821,7 +924,7 @@ box-shadow:
   align-items: center;
   justify-content: center;
   font-size: 1.75rem;
-  color: white;
+  color: var(--text-primary);
 }
 
 .step-card h3 {
@@ -866,7 +969,7 @@ box-shadow:
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
-  color: white;
+  color: var(--text-primary);
   flex-shrink: 0;
 }
 
@@ -988,7 +1091,7 @@ box-shadow:
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  color: white;
+  color: var(--text-primary);
 }
 
 .stat-box .stat-number {
@@ -1026,7 +1129,7 @@ box-shadow:
   align-items: center;
   justify-content: center;
   font-size: 1.75rem;
-  color: white;
+  color: var(--text-primary);
   flex-shrink: 0;
 }
 
@@ -2274,7 +2377,7 @@ box-shadow:
   align-items: center;
   justify-content: center;
   font-size: 1.125rem;
-  color: white;
+  color: var(--text-primary);
 }
 
 .metadata-icon.green {
@@ -2411,9 +2514,6 @@ box-shadow:
     padding: var(--spacing-md);
   }
 
-  .hero-logo-icon {
-    width: 110px;
-  }
   .method-icon {
     width: 48px;
     height: 48px;
