@@ -303,4 +303,9 @@ def search_flower():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Railway/Container friendly defaults:
+    # - debug OFF by default
+    # - respect platform-provided PORT
+    debug = os.getenv('FLASK_DEBUG', '').strip() in {'1', 'true', 'True'}
+    port = int(os.getenv('PORT', '5000'))
+    app.run(debug=debug, host='0.0.0.0', port=port)
