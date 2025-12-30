@@ -28,9 +28,23 @@ MODELS_DIR = os.path.join(ROOT_DIR, 'models')
 MODEL_FILE = os.path.join(MODELS_DIR, 'flower_classification_model_MobileNetV2.keras')
 
 # =============================
-# LOAD MODEL (TIDAK DIUBAH)
+# LOAD MODEL (patched for batch_shape configs)
 # =============================
-model = tf.keras.models.load_model(MODEL_FILE)
+class PatchedInputLayer(tf.keras.layers.InputLayer):
+    """InputLayer that accepts batch_shape from older saved models."""
+
+    def __init__(self, batch_shape=None, **kwargs):
+        if batch_shape is not None and 'batch_input_shape' not in kwargs:
+            kwargs['batch_input_shape'] = batch_shape
+        super().__init__(**kwargs)
+
+
+custom_objects = {"InputLayer": PatchedInputLayer}
+model = tf.keras.models.load_model(
+    MODEL_FILE,
+    custom_objects=custom_objects,
+    compile=False,
+)
 
 # =============================
 # LOAD METADATA
