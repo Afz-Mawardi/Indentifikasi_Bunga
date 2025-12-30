@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Indentifikasi Bunga</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <main class="container">
+    <h1>Indentifikasi Bunga</h1>
+    <p class="muted">Upload gambar bunga untuk diprediksi (sementara: placeholder).</p>
+
+    {% if error %}
+      <div class="alert">{{ error }}</div>
+    {% endif %}
+
+    <form class="card" action="{{ url_for('predict') }}" method="post" enctype="multipart/form-data">
+      <label class="label" for="image">Pilih gambar</label>
+      <input id="image" name="image" type="file" accept="image/*" required />
+      <button type="submit">Prediksi</button>
+    </form>
+  </main>
+</body>
+</html>

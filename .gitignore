@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+*.egg-info/
+.venv/
+venv/
+.env
+
+# Flask
+instance/
+uploads/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# ML / data artifacts
+*.h5
+*.keras
+*.ckpt
+*.tflite
+*.onnx
