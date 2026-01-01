@@ -166,6 +166,7 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  mix-blend-mode: normal;
 }
 
 .nav-links {
@@ -262,10 +263,13 @@ body {
   font-size: clamp(2rem, 5vw, 2.5rem);
   font-weight: 800;
   margin-bottom: var(--spacing-sm);
-  background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(135deg, #ffffff, var(--accent-cyan));
   background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: none;
+  mix-blend-mode: normal;
 }
 
 .section-subtitle {
@@ -525,12 +529,6 @@ box-shadow:
   animation: gentle-tilt 5s ease-in-out infinite;
 }
 
-@media (max-width: 640px) {
-  .hero-logo-icon {
-    font-size: clamp(3.5rem, 10vw, 5rem);
-  }
-}
-
 .hero-logo-caption {
   text-align: center;
   z-index: 1;
@@ -624,6 +622,7 @@ box-shadow:
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  mix-blend-mode: normal;
 }
 
 .btn::before {
@@ -637,6 +636,7 @@ box-shadow:
   border-radius: 50%;
   transform: translate(-50%, -50%);
   transition: width 0.6s, height 0.6s;
+  mix-blend-mode: normal;
 }
 
 .btn:hover::before {
@@ -665,6 +665,7 @@ box-shadow:
   border: 1px solid var(--glass-border);
   color: var(--text-primary);
   backdrop-filter: blur(10px);
+  mix-blend-mode: normal;
 }
 
 .btn-success {
@@ -673,24 +674,28 @@ box-shadow:
 }
 
 .btn-light {
-  background: var(--text-primary);
+  background: #ffffff;
   color: var(--bg-primary);
-  border: 2px solid white;
+  border: 2px solid #ffffff;
+  mix-blend-mode: normal;
 }
 
 .btn-outline {
   background: transparent;
-  border: 2px solid white;
-  color: var(--text-primary);
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  mix-blend-mode: normal;
 }
 .btn-light:hover {
   background: transparent;
-  color: var(--text-primary);
+  color: #ffffff;
+  mix-blend-mode: normal;
 }
 
 .btn-outline:hover {
-  background: var(--text-primary);
+  background: #ffffff;
   color: var(--bg-primary);
+  mix-blend-mode: normal;
 }
 
 .btn-block {
@@ -1295,7 +1300,8 @@ box-shadow:
 }
 
 .camera-placeholder {
-  padding: 90px;
+  border: 2px solid var(--glass-border);
+  padding: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1673,6 +1679,8 @@ box-shadow:
   text-align: center;
   background: rgba(10, 14, 39, 0.8);
   border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  flex: 1;
 }
 
 .footer-brand {
@@ -2446,6 +2454,16 @@ box-shadow:
     height: 70px;
     font-size: 2rem;
   }
+
+  .camera-placeholder-content .camera-icon {
+    width: 70px;
+    height: 70px;
+}
+
+  .camera-placeholder-content .camera-icon i {
+    font-size: 2rem;
+}
+
 }
 
 /* Tablet Portrait (768px and below) */
@@ -2484,8 +2502,11 @@ box-shadow:
     width: 100%;
   }
 
-  /* Upload Zone */
   .upload-zone {
+    padding: var(--spacing-xl);
+  }
+
+  .camera-placeholder {
     padding: var(--spacing-xl);
   }
 
@@ -2495,10 +2516,22 @@ box-shadow:
     font-size: 1.75rem;
   }
 
+  .camera-placeholder-content .camera-icon {
+    width: 60px;
+    height: 60px;
+}
+
+  .camera-placeholder-content .camera-icon i {
+    font-size: 1.75rem;
+}
+
   .upload-content h4 {
     font-size: 1.125rem;
   }
 
+.camera-placeholder-content h4 {
+    font-size: 1.125rem;
+}
   /* Hero Section */
   .hero-content h1 {
     font-size: 2.5rem;
@@ -2686,8 +2719,11 @@ box-shadow:
     font-size: 0.8125rem;
   }
 
-  /* Upload Zone */
   .upload-zone {
+    padding: var(--spacing-lg);
+  }
+
+  .camera-placeholder {
     padding: var(--spacing-lg);
   }
 
@@ -2698,13 +2734,31 @@ box-shadow:
     margin-bottom: var(--spacing-sm);
   }
 
+  .camera-placeholder-content .camera-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: var(--spacing-sm);
+}
+
+  .camera-placeholder-content .camera-icon i {
+    font-size: 1.5rem;
+}
+
   .upload-content h4 {
     font-size: 1rem;
   }
 
+.camera-placeholder-content h4 {
+    font-size: 1rem;
+}
+
   .upload-content p {
     font-size: 0.875rem;
   }
+
+.camera-placeholder-content p {
+    font-size: 0.875rem;
+}
 
   .upload-info {
     font-size: 0.75rem;
